@@ -1,5 +1,7 @@
 package com.whiteship.springmavenjpaplayground;
 
+import com.whiteship.springmavenjpaplayground.entity.Member;
+import com.whiteship.springmavenjpaplayground.entity.Period;
 import org.hibernate.Session;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -22,7 +24,13 @@ public class JpaRunner implements ApplicationRunner {
         account.setUsername("Martin");
         account.setPassword("martin");
 
+        Member member = new Member();
+        member.setName("Martin");
+        member.setPeriod(null);
+        member.setAddress1(null);
+
         Session session = entityManager.unwrap(Session.class);
+        session.save(member);
         session.save(account);
     }
 }
