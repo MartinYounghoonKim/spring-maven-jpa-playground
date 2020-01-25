@@ -1,18 +1,24 @@
 package com.whiteship.springmavenjpaplayground;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Account {
     @Id @GeneratedValue
     private Long id;
 
-    // @Column 이 생략되어있다고 생각해도 된다.
+    @Column(nullable = false, unique = true)
     private String username;
+
+    // @Column 이 생략되어있다고 생각해도 된다.
     private String password;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created = new Date();
+
+    @Transient // 컬럼으로 맵핑되지 않는다.
+    private Boolean no;
 
     public Long getId() {
         return id;
