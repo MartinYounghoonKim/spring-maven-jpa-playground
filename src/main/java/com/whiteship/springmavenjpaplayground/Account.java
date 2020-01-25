@@ -20,6 +20,15 @@ public class Account {
     @Transient // 컬럼으로 맵핑되지 않는다.
     private Boolean no;
 
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "street", column = @Column(name = "home_street"))
+    })
+    private Address address;
+
+    public Account() {
+    }
+
     public Long getId() {
         return id;
     }
