@@ -2,6 +2,8 @@ package com.whiteship.springmavenjpaplayground;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Account {
@@ -26,7 +28,15 @@ public class Account {
     })
     private Address address;
 
-    public Account() {
+    @OneToMany(mappedBy = "owner")
+    private Set<Study> studies = new HashSet();
+
+    public Set<Study> getStudies() {
+        return studies;
+    }
+
+    public void setStudies(Set<Study> studies) {
+        this.studies = studies;
     }
 
     public Long getId() {
@@ -47,6 +57,30 @@ public class Account {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", created=" + created +
+                ", no=" + no +
+                ", address=" + address +
+                ", studies=" + studies +
+                '}';
+    }
+
+    public void addStudy (Study study) {
+        // 양방향 관계일 때, 두 Entity 에 데이터를 셋팅해야 한다.
+        this.getStudies().add(study);
+        study.setOwner(this);
+    }
+
+    public void removeStudy (Study study) {
+        this.getStudies().remove(study);
+        study.setOwner(null);
     }
 
     public void setPassword(String password) {
