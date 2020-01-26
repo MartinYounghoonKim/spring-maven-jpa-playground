@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.SecondaryTable;
 
 @Component
 @Transactional
@@ -24,17 +25,25 @@ public class JpaRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Session session = entityManager.unwrap(Session.class);
 
-        Post post = new Post();
-        post.setTitle("제목1");
-        Comment comment = new Comment();
-        comment.setComment("코멘트1");
-        post.addComment(comment);
+//        Post post = new Post();
+//        post.setTitle("제목1");
+//        Comment comment = new Comment();
+//        comment.setComment("코멘트1");
+//        post.addComment(comment);
+//
+//        Comment comment1 = new Comment();
+//        comment1.setComment("곧 보여드릴게요.");
+//        post.addComment(comment1);
+//
+//        session.save(post);
 
-        Comment comment1 = new Comment();
-        comment1.setComment("곧 보여드릴게요.");
-        post.addComment(comment1);
-
-        session.save(post);
+        Post post = session.get(Post.class, 1L);
+        System.out.println(post.getTitle());
+        System.out.println(" ================== ");
+        post.getComments().forEach(c -> {
+            System.out.println("---------------");
+            System.out.println(c.getComment());
+        });
         /**
          * Account 클래스와 Study 클래스 양방향 관계
          */

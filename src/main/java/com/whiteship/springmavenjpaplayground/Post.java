@@ -11,7 +11,13 @@ public class Post {
 
     private String title;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST)
+    /**
+     * @fetch
+     * eager -> 현재
+     * lazy -> 나중에
+     * default lazy
+     */
+    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Comment> comments = new HashSet();
 
     public void addComment (Comment comment) {
