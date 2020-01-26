@@ -1,41 +1,33 @@
 package com.whiteship.springmavenjpaplayground;
 
-import com.whiteship.springmavenjpaplayground.entity.Member;
-import com.whiteship.springmavenjpaplayground.entity.MemberWithTeam;
-import com.whiteship.springmavenjpaplayground.entity.Team;
-import javafx.geometry.Pos;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.SecondaryTable;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.List;
-
 @Component
 @Transactional
 public class JpaRunner implements ApplicationRunner {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    @Autowired
+    PostRepository postRepository;
+//    @PersistenceContext
+//    EntityManager entityManager;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
-        List<Post> posts1 = entityManager.createNativeQuery("SELECT * FROM Post", Post.class)
-                .getResultList();
-        posts1.forEach(System.out::println);
-
-        TypedQuery<Post> query = entityManager.createQuery("SELECT p FROM Post as p", Post.class);
-        List<Post> posts = query.getResultList();
-        posts.forEach(System.out::println);
+        postRepository.findAll().forEach(System.out::println);
+        /**
+         * Native query
+         */
+//        List<Post> posts1 = entityManager.createNativeQuery("SELECT * FROM Post", Post.class)
+//                .getResultList();
+//        posts1.forEach(System.out::println);
+//
+//        TypedQuery<Post> query = entityManager.createQuery("SELECT p FROM Post as p", Post.class);
+//        List<Post> posts = query.getResultList();
+//        posts.forEach(System.out::println);
         /**
          * @FETCh 튜터리얼
          */
