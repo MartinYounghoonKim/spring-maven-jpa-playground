@@ -17,8 +17,16 @@ public class Post {
      * lazy -> 나중에
      * default lazy
      */
-    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST)
     private Set<Comment> comments = new HashSet();
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
+    }
 
     public void addComment (Comment comment) {
         this.getComments().add(comment);

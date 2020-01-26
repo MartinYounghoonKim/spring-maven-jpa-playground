@@ -13,6 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.SecondaryTable;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 @Component
 @Transactional
@@ -23,7 +28,18 @@ public class JpaRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Session session = entityManager.unwrap(Session.class);
+
+        List<Post> posts1 = entityManager.createNativeQuery("SELECT * FROM Post", Post.class)
+                .getResultList();
+        posts1.forEach(System.out::println);
+
+        TypedQuery<Post> query = entityManager.createQuery("SELECT p FROM Post as p", Post.class);
+        List<Post> posts = query.getResultList();
+        posts.forEach(System.out::println);
+        /**
+         * @FETCh 튜터리얼
+         */
+//        Session session = entityManager.unwrap(Session.class);
 
 //        Post post = new Post();
 //        post.setTitle("제목1");
@@ -37,13 +53,14 @@ public class JpaRunner implements ApplicationRunner {
 //
 //        session.save(post);
 
-        Post post = session.get(Post.class, 1L);
-        System.out.println(post.getTitle());
-        System.out.println(" ================== ");
-        post.getComments().forEach(c -> {
-            System.out.println("---------------");
-            System.out.println(c.getComment());
-        });
+
+//        Post post = session.get(Post.class, 1L);
+//        System.out.println(post.getTitle());
+//        System.out.println(" ================== ");
+//        post.getComments().forEach(c -> {
+//            System.out.println("---------------");
+//            System.out.println(c.getComment());
+//        });
         /**
          * Account 클래스와 Study 클래스 양방향 관계
          */
